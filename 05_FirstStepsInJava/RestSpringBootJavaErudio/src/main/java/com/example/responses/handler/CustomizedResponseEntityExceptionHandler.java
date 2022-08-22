@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.responses.ExceptionResponse;
 import com.example.responses.BadRequestResponseStatus;
+import com.example.responses.ExceptionResponse;
+import com.example.responses.NotFoundResponseStatus;
 
 @ControllerAdvice
 @RestController
@@ -39,5 +40,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				);
 		
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(NotFoundResponseStatus.class)
+	public final ResponseEntity<ExceptionResponse> HandleNotFoundException(Exception ex, WebRequest request)
+	{
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false)
+				);
+		
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 }

@@ -1,14 +1,15 @@
 package com.example.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Person;
+import com.example.repositories.PersonRepository;
+import com.example.responses.NotFoundResponseStatus;
 
 @Service
 public class PersonService {
@@ -16,54 +17,50 @@ public class PersonService {
 	private final AtomicLong  counter = new AtomicLong();
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 
+	@Autowired
+	private PersonRepository personRepository;
+	
 	public Person FindById(Long id)
 	{
 		logger.info("Buscando uma pessoa pelo id: " + id);
 
-		Person person = new Person() {};
-		
-		person.setAddress("Rua andré rocha 1001");
-		person.setId(counter.incrementAndGet());
-		person.setFirstName("Anderson Modesto");
-		person.setLastName("da Luz");
-		person.setGender("Masculino");
-		
-		return person;
+		return personRepository.findById(id).orElseThrow(() -> new NotFoundResponseStatus("pessoa não encontrada") );
 	}
 	
 	
 	public Person Create(Person person) {
 		logger.info("Criando uma nova pessoa");;
-		return person;
+		return personRepository.save(person);
 	}
 	
 	public Person Update (Person person) {
-		logger.info("Atualizando uma pessoa");;
-		return person;
+		logger.info("Atualizando uma pessoa");
+		
+		Person p = FindById(person.getId());
+		p.setFirstName(person.getFirstName());
+		p.setAddress(person.getAddress());
+		p.setGender(p.getGender());
+		p.setLastName(p.getLastName());
+		
+		return personRepository.save(p);
 	}
 	
 	public Long Delete (Long id) {
-		logger.info("deletando pessoa com id " + id);;
+		logger.info("deletando pessoa com id " + id);
+		
+		Person p = FindById(id);
+		
+		personRepository.delete(p);
 		return id;
+		
 	}
 	
 	
 	public List<Person> FindAll()
 	{
 		logger.info("Buscando uma lista de pessoas");
+				
+		return personRepository.findAll();
 		
-		List<Person> persons = new ArrayList<Person>();
-		
-		for (int i = 1; i <= 10; i++) {
-			Person person = new Person() {};
-			
-			person.setAddress("Rua "+ i);
-			person.setId(counter.incrementAndGet());
-			person.setFirstName("Anderson Modesto" + i);
-			person.setLastName("da Luz");
-			person.setGender("Masculino");
-			persons.add(person);
-		}
-		return persons;
 	}
 }

@@ -21,7 +21,7 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 
-	@RequestMapping(value = "{id}}", 
+	@RequestMapping(value = "{id}", 
 			method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public Person findById(
@@ -34,7 +34,7 @@ public class PersonController {
 	@RequestMapping(value = "FindAll", 
 			method=RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Person> findById() throws Exception
+	public List<Person> FindAll() throws Exception
 	{
 		return personService.FindAll();
 	}
@@ -68,7 +68,7 @@ public class PersonController {
 			@PathVariable(value = "id") Long id 
 			) throws Exception
 	{
-		return personService.Delete(id);
+	    return personService.Delete(id);
 	}
 }
 

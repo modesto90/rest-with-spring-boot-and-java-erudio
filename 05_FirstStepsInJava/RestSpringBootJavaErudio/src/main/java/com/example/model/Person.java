@@ -2,14 +2,33 @@ package com.example.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "person")
 public class Person implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
+	
+	@Column(name = "first_name", nullable = false, length = 80)
 	private String FirstName;
+	
+	@Column(name = "last_name", nullable = false, length = 80)
 	private String LastName;
+	
+	@Column(name = "address", length = 100)
 	private String Address;
+	
+	@Column(name = "gender", length = 6)
 	private String Gender;
 	
 	public Person() {}
