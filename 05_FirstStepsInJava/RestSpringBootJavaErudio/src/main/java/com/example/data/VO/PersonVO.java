@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.data.VO;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,28 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "person")
-public class Person implements Serializable{
+
+public class PersonVO implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "first_name", nullable = false, length = 80)
 	private String firstName;
-	
-	@Column(name = "last_name", nullable = false, length = 80)
 	private String lastName;
-	
-	@Column(name = "address", length = 100)
 	private String address;
-	
-	@Column(name = "gender", length = 6)
 	private String gender;
 	
-	public Person() {}
+	public PersonVO() {}
 
 	public Long getId() {
 		return id;
@@ -41,7 +29,7 @@ public class Person implements Serializable{
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -49,7 +37,7 @@ public class Person implements Serializable{
 	}
 
 	public String getLastName() {
-		return this.lastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -57,7 +45,7 @@ public class Person implements Serializable{
 	}
 
 	public String getAddress() {
-		return this.address;
+		return address;
 	}
 
 	public void setAddress(String address) {
@@ -74,7 +62,7 @@ public class Person implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.address, this.firstName, this.gender, this.id, this.lastName);
+		return Objects.hash(address, firstName, gender, id, lastName);
 	}
 
 	@Override
@@ -85,10 +73,10 @@ public class Person implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Person other = (Person) obj;
-		return Objects.equals(this.address, other.address) && Objects.equals(this.firstName, other.firstName)
-				&& Objects.equals(this.gender, other.gender) && Objects.equals(this.id, other.id)
-				&& Objects.equals(this.lastName, other.lastName);
+		PersonVO other = (PersonVO) obj;
+		return Objects.equals(this.address, other.address) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(this.gender, other.gender) && Objects.equals(id, other.id)
+				&& Objects.equals(lastName, other.lastName);
 	}
 	
 	
